@@ -5,7 +5,7 @@ from datetime import datetime
 # Page configuration
 st.set_page_config(
     page_title="Kashish Bhasin - Dyson Summer Intern",
-    page_icon="🌪️",
+    page_icon="🌪",
     layout="wide",
     initial_sidebar_state="expanded"
 )
