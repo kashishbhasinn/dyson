@@ -281,25 +281,25 @@ elif selected_section == "Projects":
         """, unsafe_allow_html=True)
 
 elif selected_section == "Skills":
-    st.markdown("# 🛠️ Technical Arsenal")
+    st.markdown("# 🛠️ Skillset")
     
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("### 📊 Product & Business")
+        st.markdown("<br><br> 📊 Product & Business")
         skills = ["Product Roadmapping", "Agile Scrum", "Jira", "Notion", "Feature Prioritization", 
                  "Competitive Analysis", "User Research", "KPI Tracking", "Market Segmentation", "Business Model Analysis"]
         for skill in skills:
             st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
         
-        st.markdown("<br><br>### 📈 Marketing & Analytics", unsafe_allow_html=True)
+        st.markdown("<br><br> 📈 Marketing & Analytics", unsafe_allow_html=True)
         marketing_skills = ["Google Analytics", "Meta Ads Manager", "Social Media Strategy", "Brand Positioning", 
                            "Customer Journey Mapping", "SWOT Analysis", "Survey Design", "Sentiment Analysis", "A/B Testing"]
         for skill in marketing_skills:
             st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
     
     with col2:
-        st.markdown(" 💻 Technical")
+        st.markdown("<br><br> 💻 Technical")
         tech_skills = ["Python (NumPy, Pandas, Scikit-learn)", "SQL", "Tableau", "Excel", 
                       "LangChain", "HuggingFace", "Selenium", "BeautifulSoup"]
         for skill in tech_skills:
