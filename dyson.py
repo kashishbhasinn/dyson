@@ -1,387 +1,457 @@
 import streamlit as st
+import time
+from datetime import datetime
 
-# Dyson color palette and styling
+# Page configuration
 st.set_page_config(
-    page_title="Kashish Bhasin - Resume",
-    page_icon="⚙️",
-    layout="wide"
+    page_title="Kashish Bhasin - Dyson Summer Intern",
+    page_icon="🌪️",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS with Dyson colors
+# Custom CSS for styling
 st.markdown("""
 <style>
     .main-header {
-        background: linear-gradient(135deg, #003d82 0%, #0052cc 100%);
-        color: white;
-        padding: 2rem;
-        border-radius: 10px;
-        margin-bottom: 2rem;
-        text-align: center;
-    }
-    .section-header {
-        background: linear-gradient(90deg, #ff6b35 0%, #ff8c42 100%);
-        color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1.5rem 0 1rem 0;
+        font-size: 3rem;
         font-weight: bold;
+        color: #6C63FF;
+        text-align: center;
+        margin-bottom: 1rem;
+        background: linear-gradient(90deg, #6C63FF, #FF6B6B);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
-    .experience-card {
-        background: #f8f9fa;
-        border-left: 4px solid #003d82;
+    
+    .subtitle {
+        font-size: 1.3rem;
+        text-align: center;
+        color: #666;
+        margin-bottom: 2rem;
+        font-style: italic;
+    }
+    
+    .metric-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 1.5rem;
-        margin: 1rem 0;
-        border-radius: 0 8px 8px 0;
+        border-radius: 15px;
+        text-align: center;
+        color: white;
+        margin: 0.5rem 0;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+    
     .project-card {
-        background: #fff5f2;
-        border-left: 4px solid #ff6b35;
+        background: white;
         padding: 1.5rem;
+        border-radius: 15px;
+        border-left: 5px solid #6C63FF;
         margin: 1rem 0;
-        border-radius: 0 8px 8px 0;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    .skill-tag {
-        background: #e3f2fd;
-        color: #003d82;
+    
+    .skill-badge {
+        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        color: white;
         padding: 0.3rem 0.8rem;
         border-radius: 20px;
         margin: 0.2rem;
         display: inline-block;
-        font-size: 0.9rem;
-        font-weight: 500;
-    }
-    .achievement-item {
-        background: #fff8e1;
-        border-left: 3px solid #ff8c42;
-        padding: 1rem;
-        margin: 0.5rem 0;
-        border-radius: 0 5px 5px 0;
-    }
-    .contact-info {
-        background: #f0f4ff;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-    }
-    .metric-highlight {
-        color: #003d82;
+        font-size: 0.8rem;
         font-weight: bold;
     }
-    .sidebar-card {
-        background: #f8f9fa;
-        border: 2px solid #003d82;
-        border-radius: 10px;
-        padding: 1rem;
-        margin: 1rem 0;
-    }
-    .sidebar-metric {
-        background: linear-gradient(45deg, #003d82, #0052cc);
+    
+    .internship-card {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin: 1rem 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .achievement-item {
+        background: #f8f9fa;
         padding: 1rem;
-        border-radius: 8px;
-        text-align: center;
+        border-radius: 10px;
+        border-left: 4px solid #28a745;
         margin: 0.5rem 0;
     }
-    .quick-fact {
-        background: #fff5f2;
-        border-left: 3px solid #ff6b35;
-        padding: 0.8rem;
-        margin: 0.5rem 0;
-        border-radius: 0 5px 5px 0;
-        font-size: 0.9rem;
+    
+    .dyson-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        margin: 2rem 0;
+    }
+    
+    .hire-button {
+        background: linear-gradient(45deg, #FF6B6B, #4ECDC4);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s;
+    }
+    
+    .hire-button:hover {
+        transform: scale(1.05);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Header Section
-st.markdown("""
-<div class="main-header">
-    <h1>KASHISH BHASIN</h1>
-    <p style="font-size: 1.2rem; margin-top: 1rem;">Product Strategist & AI/ML Engineer</p>
-</div>
-""", unsafe_allow_html=True)
+# Initialize session state for progress tracking
+if 'visited_sections' not in st.session_state:
+    st.session_state.visited_sections = set()
 
-# Contact Information
-st.markdown("""
-<div class="contact-info">
-    <p><strong>📧</strong> kashishbhasinn@gmail.com | <strong>📱</strong> (+91) 9811149303</p>
-    <p><strong>💼</strong> linkedin.com/in/kashish-bhasin | <strong>💻</strong> github.com/kashishbhasinn</p>
-</div>
-""", unsafe_allow_html=True)
+# Sidebar Navigation
+st.sidebar.markdown("## 🧭 Navigation")
+sections = ["Introduction", "Internships", "Projects", "Skills", "Why Dyson", "Achievements", "Contact"]
 
-# Sidebar
-with st.sidebar:
-    st.markdown("""
-    <div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #003d82, #0052cc); color: white; border-radius: 10px; margin-bottom: 2rem;">
-        <h2>📊 Quick Stats</h2>
-    </div>
-    """, unsafe_allow_html=True)
+selected_section = st.sidebar.selectbox("Choose a section:", sections)
+st.session_state.visited_sections.add(selected_section)
+
+# Progress tracking
+progress = len(st.session_state.visited_sections) / len(sections)
+st.sidebar.progress(progress)
+st.sidebar.markdown(f"**Progress:** {int(progress * 100)}% complete")
+
+# Visited sections indicator
+st.sidebar.markdown("### ✅ Visited Sections")
+for section in sections:
+    if section in st.session_state.visited_sections:
+        st.sidebar.markdown(f"✅ {section}")
+    else:
+        st.sidebar.markdown(f"⬜ {section}")
+
+# Main content based on selected section
+if selected_section == "Introduction":
+    st.markdown('<h1 class="main-header">Hi, I\'m Kashish Bhasin! 👋</h1>', unsafe_allow_html=True)
+    st.markdown('<div class="subtitle">Product strategist and Computer Science undergrad passionate about leveraging technology to solve real-world consumer problems</div>', unsafe_allow_html=True)
     
-    # Key Metrics
-    st.markdown("""
-    <div class="sidebar-metric">
-        <h3>9.29</h3>
-        <p>CGPA</p>
-    </div>
-    """, unsafe_allow_html=True)
+    col1, col2, col3 = st.columns(3)
     
-    st.markdown("""
-    <div class="sidebar-metric">
-        <h3>6+</h3>
-        <p>Internships</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    st.markdown("""
-    <div class="sidebar-metric">
-        <h3>8+</h3>
-        <p>Tech Projects</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Why Dyson Section
-    st.markdown("""
-    <div class="sidebar-card">
-        <h4 style="color: #003d82; text-align: center;">🎯 Why Dyson?</h4>
-        <div class="quick-fact">
-            <strong>Innovation Focus:</strong> Passionate about solving real-world consumer problems
-        </div>
-        <div class="quick-fact">
-            <strong>Tech + Business:</strong> Perfect blend of AI/ML expertise and market research skills
-        </div>
-        <div class="quick-fact">
-            <strong>Proven Results:</strong> 65% sales growth impact at Dr. Oetker
-        </div>
-        <div class="quick-fact">
-            <strong>Team Leadership:</strong> Led 10+ cross-functional specialists
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Quick Facts
-    st.markdown("""
-    <div class="sidebar-card">
-        <h4 style="color: #003d82; text-align: center;">⚡ Quick Facts</h4>
-        <div class="quick-fact">
-            🎓 Top 2,000 AWS AI/ML scholarship recipients worldwide
-        </div>
-        <div class="quick-fact">
-            🌍 International exposure through PASCH program (50/100+ nations)
-        </div>
-        <div class="quick-fact">
-            💼 PwC Data Analytics certified (92% average score)
-        </div>
-        <div class="quick-fact">
-            🏆 Treasurer role: 200+ attendee growth achieved
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Skills Summary
-    st.markdown("""
-    <div class="sidebar-card">
-        <h4 style="color: #003d82; text-align: center;">🛠️ Core Skills</h4>
-        <div class="quick-fact">
-            <strong>Product:</strong> Roadmapping, PRDs, User Research
-        </div>
-        <div class="quick-fact">
-            <strong>Marketing:</strong> Google Analytics, Meta Ads, A/B Testing
-        </div>
-        <div class="quick-fact">
-            <strong>Tech:</strong> Python, AI/ML, Data Analysis
-        </div>
-        <div class="quick-fact">
-            <strong>Business:</strong> Market Analysis, Strategy, KPI Tracking
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Download Section
-    st.markdown("---")
-    st.markdown("""
-    <div style="text-align: center; padding: 1rem;">
-        <h4 style="color: #003d82;">📄 Resume Actions</h4>
-        <p style="font-size: 0.9rem; color: #666;">
-            Contact me for the latest PDF version or connect on LinkedIn!
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-
-# Summary Section
-st.markdown('<div class="section-header"><h2>PROFESSIONAL SUMMARY</h2></div>', unsafe_allow_html=True)
-st.markdown("""
-Product strategist and Computer Science undergrad passionate about leveraging technology to solve real-world consumer problems. 
-Experienced in market research, customer behavior analysis, and leading cross-functional product teams to deliver innovative solutions. 
-Combines deep technical expertise in AI/ML with business strategy skills to drive product growth, optimize market positioning, 
-and deliver data-backed insights that support strategic objectives.
-""")
-
-# Education Section
-st.markdown('<div class="section-header"><h2>EDUCATION</h2></div>', unsafe_allow_html=True)
-
-col1, col2 = st.columns([3, 1])
-with col1:
-    st.markdown("**Manipal University Jaipur**")
-    st.markdown("BTech in Computer Science Engineering - Artificial Intelligence and Machine Learning")
-with col2:
-    st.markdown("**CGPA: 9.29**")
-
-st.markdown("**Lotus Valley International School, Noida**")
-st.markdown("Class 12: 93.8% | Class 10: 94.6%")
-
-# Skills Section
-st.markdown('<div class="section-header"><h2>SKILLS</h2></div>', unsafe_allow_html=True)
-
-# Product & Business Skills
-st.markdown("**Product & Business:**")
-product_skills = ["Product Roadmapping", "Agile Scrum", "Jira", "Notion", "Feature Prioritization", 
-                 "Competitive Analysis", "User Research", "KPI Tracking", "Market Segmentation", "Business Model Analysis"]
-skills_html = "".join([f'<span class="skill-tag">{skill}</span>' for skill in product_skills])
-st.markdown(skills_html, unsafe_allow_html=True)
-
-# Marketing & Business Skills
-st.markdown("**Marketing & Business Skills:**")
-marketing_skills = ["Google Analytics", "Meta Ads Manager", "Social Media Strategy", "Brand Positioning", 
-                   "Customer Journey Mapping", "SWOT Analysis", "Survey Design", "Sentiment Analysis", "A/B Testing"]
-marketing_html = "".join([f'<span class="skill-tag">{skill}</span>' for skill in marketing_skills])
-st.markdown(marketing_html, unsafe_allow_html=True)
-
-# Technical Skills
-st.markdown("**Technical:**")
-tech_skills = ["Python", "NumPy", "Pandas", "Scikit-learn", "SQL", "Tableau", "Excel", 
-              "LangChain", "HuggingFace", "Selenium", "BeautifulSoup"]
-tech_html = "".join([f'<span class="skill-tag">{skill}</span>' for skill in tech_skills])
-st.markdown(tech_html, unsafe_allow_html=True)
-
-# Experience Section
-st.markdown('<div class="section-header"><h2>PROFESSIONAL EXPERIENCE</h2></div>', unsafe_allow_html=True)
-
-# IIM Bangalore
-st.markdown("""
-<div class="experience-card">
-    <h3>Indian Institute of Management Bangalore</h3>
-    <p><em>Data & Research Intern</em> | Remote | January 2024 - October 2024</p>
-    <ul>
-        <li>Built a Python-based web scraping tool with <span class="metric-highlight">92% accuracy</span>, automating extraction for <span class="metric-highlight">7-9 Cr beneficiary records</span></li>
-        <li>Implemented an Agile project management process that <span class="metric-highlight">reduced manual data handling time by 50%</span></li>
-        <li>Delivered weekly analytical reports, using data insights to <span class="metric-highlight">improve strategic alignment by 30%</span></li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
-
-# Dr. Oetker
-st.markdown("""
-<div class="experience-card">
-    <h3>Dr. Oetker India Pvt. Ltd.</h3>
-    <p><em>Product Intern</em> | New Delhi | July 2022</p>
-    <ul>
-        <li>Conducted market analysis of customer preferences, optimizing product positioning and driving <span class="metric-highlight">65% of total sales growth</span></li>
-        <li>Designed 10 product logos using Canva & Adobe Illustrator, increasing <span class="metric-highlight">market viewership by 20%</span></li>
-        <li>Planned brand analytics dashboards in Excel & Tableau, driving <span class="metric-highlight">5.7% YoY growth</span></li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
-
-# Arogo AI
-st.markdown("""
-<div class="experience-card">
-    <h3>Arogo AI, IIT Kharagpur</h3>
-    <p><em>Product & Marketing Strategist Intern</em> | Remote | February 2025 - May 2025</p>
-    <ul>
-        <li>Led a cross-functional team of <span class="metric-highlight">10+ specialists</span> in developing an AI-driven mental health platform</li>
-        <li>Authored PRDs for a CV pipeline for <span class="metric-highlight">300K+ patients</span>, automating medical image analysis</li>
-        <li>Managed product roadmap and sprint planning using Agile methodologies, delivering <span class="metric-highlight">5+ features</span></li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
-
-# DRDO
-st.markdown("""
-<div class="experience-card">
-    <h3>DRDO Defense Young Scientist Laboratory</h3>
-    <p><em>AI Research Intern</em> | Bangalore | June 2024 - July 2024</p>
-    <ul>
-        <li>Developed a RAG system improving document retrieval efficiency by <span class="metric-highlight">70%</span></li>
-        <li>Optimized search workflows reducing manual search time by <span class="metric-highlight">50%</span></li>
-        <li>Conducted comparative analysis of <span class="metric-highlight">15+ vector databases</span></li>
-    </ul>
-</div>
-""", unsafe_allow_html=True)
-
-# Projects Section
-st.markdown('<div class="section-header"><h2>PRODUCT & TECH PROJECTS</h2></div>', unsafe_allow_html=True)
-
-st.markdown("""
-<div class="project-card">
-    <h4>AI-Powered Resume Analysis System</h4>
-    <p>Conducted user research with <span class="metric-highlight">50+ job seekers</span> to identify pain points in resume optimization. 
-    Developed an AI system achieving <span class="metric-highlight">65% accuracy improvement</span> through user feedback.</p>
-    <p><strong>Tools:</strong> Python, Streamlit, Google Gemini API, PyPDF2</p>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="project-card">
-    <h4>AI Kitchen Assistant</h4>
-    <p>Developed an AI-powered smart cooking assistant with <span class="metric-highlight">35% improved meal planning efficiency</span> 
-    and <span class="metric-highlight">40% increased engagement</span> through voice commands.</p>
-    <p><strong>Tools:</strong> Python, Streamlit, Google Gemini API, Hugging Face Transformers</p>
-</div>
-""", unsafe_allow_html=True)
-
-st.markdown("""
-<div class="project-card">
-    <h4>Case Study on Manus AI</h4>
-    <p>Conducted comprehensive case study focusing on innovations in memory architecture, tool orchestration, and goal management.</p>
-    <p><strong>Tools:</strong> Streamlit, Python, Agentic AI frameworks</p>
-</div>
-""", unsafe_allow_html=True)
-
-# Achievements Section
-st.markdown('<div class="section-header"><h2>KEY ACHIEVEMENTS</h2></div>', unsafe_allow_html=True)
-
-achievements = [
-    "**Data Analytics & AI Launchpad Trainee, PwC:** Completed 4 specialized microcertifications achieving 92% average score",
-    "**Treasurer, AI ML Community:** Spearheaded budget optimization resulting in 200-attendee increase in event participation",
-    "**AWS Udacity AI/ML Scholarship:** Selected as one of top 2,000 students worldwide for exclusive 4-month AI Programming course",
-    "**PASCH Youth Course:** Among top 50 students from 100+ nations for fully funded scholarship in Hamburg"
-]
-
-for achievement in achievements:
-    st.markdown(f'<div class="achievement-item">{achievement}</div>', unsafe_allow_html=True)
-
-# Call to Action Section
-st.markdown("---")
-st.markdown("""
-<div style="text-align: center; padding: 2rem;">
-    <h2 style="color: #003d82; margin-bottom: 1rem;">Ready to Innovate with Dyson?</h2>
-    <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">
-        Let's create revolutionary consumer technology solutions together
-    </p>
-</div>
-""", unsafe_allow_html=True)
-
-# Hire Me CTA Button
-col1, col2, col3 = st.columns([1, 2, 1])
-with col2:
-    if st.button("🚀 HIRE ME FOR DYSON INTERNSHIP", 
-                 key="hire_me",
-                 help="Click to celebrate!",
-                 type="primary"):
-        st.balloons()
-        st.success("🎉 Thank you for considering my application! I'm excited to contribute to Dyson's mission of solving problems others ignore.")
+    with col1:
         st.markdown("""
-        <div style="text-align: center; margin-top: 1rem; padding: 1rem; background: #e8f5e8; border-radius: 8px;">
-            <p><strong>Next Steps:</strong></p>
-            <p>📧 Email: kashishbhasinn@gmail.com</p>
-            <p>📱 Phone: (+91) 9811149303</p>
-            <p>💼 LinkedIn: linkedin.com/in/kashish-bhasin</p>
+        <div class="metric-card">
+            <h3>🎓 Education</h3>
+            <p><strong>BTech CSE - AI/ML</strong><br>
+            Manipal University Jaipur<br>
+            CGPA: <strong>9.29</strong></p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="metric-card">
+            <h3>💼 Experience</h3>
+            <p><strong>4+ Internships</strong><br>
+            IIM Bangalore, DRDO, Dr. Oetker<br>
+            Arogo AI (IIT Kharagpur)</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="metric-card">
+            <h3>🏆 Recognition</h3>
+            <p><strong>Global Achiever</strong><br>
+            Top 2,000 AWS Scholarship<br>
+            Top 50 PASCH Global</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("### 🚀 Fun Fact")
+    st.info("I led a cross-functional team of 10+ specialists at IIT Kharagpur to develop an AI-driven mental health platform - combining my passion for technology with real-world impact!")
+
+elif selected_section == "Internships":
+    st.markdown("# 💼 Professional Experience")
+    
+    # Arogo AI
+    st.markdown("""
+    <div class="internship-card">
+        <h3>🧠 Arogo AI, IIT Kharagpur</h3>
+        <h4>Product & Marketing Strategist Intern | Feb 2025 - May 2025</h4>
+        <ul>
+            <li><strong>Led a cross-functional team of 10+ specialists</strong> (UI/UX designers, developers, LLM engineers) in developing an AI-driven mental health platform, streamlining the development workflow</li>
+            <li><strong>Authored PRDs for a CV pipeline for 300K+ patients</strong>, automating medical image analysis using Swin-UNETR, Inception v3 and BLIP-2</li>
+            <li><strong>Managed product roadmap and sprint planning</strong> using Agile methodologies, delivering 5+ features for the prescription management system</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # IIM Bangalore
+    st.markdown("""
+    <div class="internship-card">
+        <h3>📊 Indian Institute of Management Bangalore</h3>
+        <h4>Data & Research Intern | Jan 2024 - Oct 2024</h4>
+        <ul>
+            <li><strong>Built a Python-based web scraping tool with 92% accuracy</strong>, automating extraction for 7-9 Cr beneficiary records</li>
+            <li><strong>Implemented an Agile project management process</strong> that reduced manual data handling time by 50%</li>
+            <li><strong>Delivered weekly analytical reports</strong>, using data insights to improve strategic alignment by 30%</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Dr. Oetker
+    st.markdown("""
+    <div class="internship-card">
+        <h3>🍕 Dr. Oetker India Pvt. Ltd.</h3>
+        <h4>Product Intern | July 2022</h4>
+        <ul>
+            <li><strong>Conducted a market analysis of customer preferences</strong>, optimizing product positioning and driving 65% of its total sales growth</li>
+            <li><strong>Designed 10 product logos</strong> using Canva & Adobe Illustrator, increasing market viewership 20%</li>
+            <li><strong>Planned brand analytics dashboards</strong> in Excel & Tableau, driving 5.7% YoY growth</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # DRDO
+    st.markdown("""
+    <div class="internship-card">
+        <h3>🛡️ DRDO Defense Young Scientist Laboratory</h3>
+        <h4>AI Research Intern | June 2024 - July 2024</h4>
+        <ul>
+            <li><strong>Developed a RAG system for the DRDO procurement manual</strong>, improving the efficiency of document retrieval by 70%</li>
+            <li><strong>Optimized search workflows</strong> using LangChain, ChromaDB, and HuggingFaceEmbeddings, to reduce manual search time by 50%</li>
+            <li><strong>Conducted a comparative analysis of 15+ vector databases</strong>, collaborating with the LLM team to deploy large-scale AI models</li>
+        </ul>
+    </div>
+    """, unsafe_allow_html=True)
+
+elif selected_section == "Projects":
+    st.markdown("# 🚀 Innovation Showcase")
+    
+    tab1, tab2, tab3 = st.tabs(["AI Resume Analyzer", "AI Kitchen Assistant", "Manus AI Case Study"])
+    
+    with tab1:
+        st.markdown("""
+        <div class="project-card">
+            <h3>🎯 AI-Powered Resume Analysis System</h3>
+            <p><strong>Impact:</strong> Helped 50+ job seekers optimize their resumes with 65% accuracy improvement through user feedback</p>
+            <h4>What I Built:</h4>
+            <ul>
+                <li>Conducted user research with 50+ job seekers to identify pain points in resume optimization</li>
+                <li>Developed an AI system that analyzes resumes, identifying missing keywords and suggesting improvements</li>
+                <li>Improved accuracy to 65% through iterative user feedback integration</li>
+            </ul>
+            <p><strong>Tech Stack:</strong> Python, Streamlit, Google Gemini API, PyPDF2, python-dotenv</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with tab2:
+        st.markdown("""
+        <div class="project-card">
+            <h3>🍳 AI Kitchen Assistant</h3>
+            <p><strong>Impact:</strong> 35% improved meal planning efficiency and 40% increased engagement through voice commands</p>
+            <h4>Features:</h4>
+            <ul>
+                <li>Voice-enabled smart cooking assistant with natural language processing</li>
+                <li>Intelligent meal planning with personalized recommendations</li>
+                <li>Real-time cooking guidance and recipe optimization</li>
+            </ul>
+            <p><strong>Tech Stack:</strong> Python, Streamlit, Google Gemini API, Hugging Face Transformers, Google Speech Recognition API</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with tab3:
+        st.markdown("""
+        <div class="project-card">
+            <h3>🤖 Case Study on Manus AI: Advancing Autonomous Agent Capabilities</h3>
+            <p><strong>Focus:</strong> Innovations in memory architecture, tool orchestration, and goal management</p>
+            <h4>Research Areas:</h4>
+            <ul>
+                <li>Memory architecture optimization for autonomous agents</li>
+                <li>Advanced tool orchestration mechanisms</li>
+                <li>Goal management and decision-making frameworks</li>
+            </ul>
+            <p><strong>Tech Stack:</strong> Streamlit, Python, Agentic AI frameworks</p>
         </div>
         """, unsafe_allow_html=True)
 
+elif selected_section == "Skills":
+    st.markdown("# 🛠️ Technical Arsenal")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### 📊 Product & Business")
+        skills = ["Product Roadmapping", "Agile Scrum", "Jira", "Notion", "Feature Prioritization", 
+                 "Competitive Analysis", "User Research", "KPI Tracking", "Market Segmentation", "Business Model Analysis"]
+        for skill in skills:
+            st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
+        
+        st.markdown("<br><br>### 📈 Marketing & Analytics", unsafe_allow_html=True)
+        marketing_skills = ["Google Analytics", "Meta Ads Manager", "Social Media Strategy", "Brand Positioning", 
+                           "Customer Journey Mapping", "SWOT Analysis", "Survey Design", "Sentiment Analysis", "A/B Testing"]
+        for skill in marketing_skills:
+            st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("### 💻 Technical")
+        tech_skills = ["Python (NumPy, Pandas, Scikit-learn)", "SQL", "Tableau", "Excel", 
+                      "LangChain", "HuggingFace", "Selenium", "BeautifulSoup"]
+        for skill in tech_skills:
+            st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
+        
+        st.markdown("<br><br>### ☁️ Platforms", unsafe_allow_html=True)
+        platform_skills = ["AWS", "Azure (basic)", "Streamlit", "ChromaDB", "GitHub", "Canva", "Adobe Illustrator"]
+        for skill in platform_skills:
+            st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
+
+elif selected_section == "Why Dyson":
+    st.markdown("""
+    <div class="dyson-section">
+        <h1>🌪️ Why Dyson?</h1>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Typewriter effect simulation
+    dyson_text = """I'm inspired by Dyson's mission to solve problems others ignore. My passion for data, technology, and creative problem-solving aligns perfectly with Dyson's culture of innovation. I want to contribute to products that make a real impact, learn from world-class teams, and grow in a fast-paced, global environment."""
+    
+    placeholder = st.empty()
+    displayed_text = ""
+    
+    if st.button("🎬 Play My Dyson Story"):
+        for char in dyson_text:
+            displayed_text += char
+            placeholder.markdown(f"*{displayed_text}*")
+            time.sleep(0.03)
+    else:
+        st.markdown(f"*{dyson_text}*")
+    
+    st.markdown("---")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        ### 🎯 What I Bring
+        - **Product Strategy** from managing roadmaps for 300K+ users
+        - **Market Research** experience driving 65% sales growth
+        - **Data Analytics** expertise with millions of records
+        """)
+    
+    with col2:
+        st.markdown("""
+        ### 🔍 My Interest Areas
+        - **Marketing Analytics** and consumer insights
+        - **Product Research** and user behavior analysis
+        - **Cross-functional leadership** and team collaboration
+        """)
+    
+    with col3:
+        st.markdown("""
+        ### 🚀 Ready to Impact
+        - **Fast learner** with global exposure (50 countries)
+        - **Innovation mindset** from AI/ML background
+        - **Results-driven** approach with proven metrics
+        """)
+
+elif selected_section == "Achievements":
+    st.markdown("# 🏆 Achievements & Recognition")
+    
+    achievements = [
+        {
+            "title": "AWS Udacity AI/ML Scholarship - Python Nanodegree AI Programming",
+            "description": "Selected as one of the top 2,000 students worldwide to attend an exclusive 4-month AI Programming course, gaining hands-on experience in advanced AI and ML concepts",
+            "icon": "☁️"
+        },
+        {
+            "title": "Data Analytics & AI Launchpad Trainee, PwC",
+            "description": "Completed 4 specialized microcertifications in IT fundamentals, RDBMS (Oracle) and data engineering, achieving a 92% average score across all assessments",
+            "icon": "📊"
+        },
+        {
+            "title": "Treasurer, AI ML Community",
+            "description": "Spearheaded budget optimization efforts, identifying cost inefficiencies and reallocating funds, resulting in a 200-attendee increase in event participation over six months",
+            "icon": "💰"
+        },
+        {
+            "title": "PASCH Youth Course (JuKu)",
+            "description": "Among the top 50 students from over 100 nations to receive a fully funded 3-week youth scholarship in Hamburg by the Max Mueller Bhavan & Goethe Institute in June 2019, expanding my global network by 100+ international peers",
+            "icon": "🌍"
+        }
+    ]
+    
+    for achievement in achievements:
+        st.markdown(f"""
+        <div class="achievement-item">
+            <h3>{achievement['icon']} {achievement['title']}</h3>
+            <p>{achievement['description']}</p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Animated counters
+    st.markdown("### 📈 Impact Numbers")
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("CGPA", "9.29", "🎓")
+    with col2:
+        st.metric("Global Ranking", "Top 2,000", "🌟")
+    with col3:
+        st.metric("PwC Score", "92%", "📊")
+    with col4:
+        st.metric("Event Growth", "+200", "📈")
+
+elif selected_section == "Contact":
+    st.markdown("# 📞 Let's Connect!")
+    
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        st.markdown("""
+        ### 📧 Contact Information
+        
+        **Email:** kashishbhasinn@gmail.com  
+        **Phone:** (+91) 9811149303  
+        **LinkedIn:** [linkedin.com/in/kashish-bhasin](https://linkedin.com/in/kashish-bhasin)  
+        **GitHub:** [github.com/kashishbhasinn](https://github.com/kashishbhasinn)
+        """)
+        
+        st.markdown("---")
+        
+        # The big hire button
+        if st.button("🎉 HIRE ME FOR DYSON!", key="hire_button"):
+            st.balloons()
+            st.success("🎊 Thank you for considering my application! I'm excited about the opportunity to contribute to Dyson's innovative culture and make a real impact. Let's build the future together!")
+            st.markdown("### 🚀 Next Steps:")
+            st.write("1. 📧 I'll follow up via email within 24 hours")
+            st.write("2. 📅 Ready for interviews at your convenience")
+            st.write("3. 💼 Prepared to start contributing from day one!")
+    
+    with col2:
+        st.markdown("""
+        ### 🎯 Quick Stats
+        
+        **Experience:** 4+ Internships  
+        **Education:** BTech CSE-AI/ML  
+        **CGPA:** 9.29  
+        **Global Recognition:** Top 2,000 AWS  
+        **Leadership:** 10+ team members  
+        **Impact:** 300K+ users affected
+        """)
+        
+        st.markdown("### 🌟 Why Choose Me?")
+        st.write("✅ Proven track record in product strategy")
+        st.write("✅ Strong technical and business skills")
+        st.write("✅ Experience with cross-functional teams")
+        st.write("✅ Data-driven decision making")
+        st.write("✅ Global perspective and adaptability")
+
 # Footer
+st.markdown("---")
 st.markdown("""
-<div style="text-align: center; color: #666; padding: 1rem; margin-top: 2rem;">
-    <p style="font-style: italic;">"Engineering solutions that make a difference in people's lives"</p>
+<div style="text-align: center; color: #666; margin-top: 2rem;">
+    <p>🌪️ Built with passion for Dyson Summer Internship 2025 | Kashish Bhasin</p>
+    <p>Combining innovation, technology, and real-world impact - just like Dyson!</p>
 </div>
 """, unsafe_allow_html=True)
