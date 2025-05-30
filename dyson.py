@@ -299,13 +299,13 @@ elif selected_section == "Skills":
             st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
     
     with col2:
-        st.markdown("### 💻 Technical")
+        st.markdown(" 💻 Technical")
         tech_skills = ["Python (NumPy, Pandas, Scikit-learn)", "SQL", "Tableau", "Excel", 
                       "LangChain", "HuggingFace", "Selenium", "BeautifulSoup"]
         for skill in tech_skills:
             st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
         
-        st.markdown("<br><br>### ☁️ Platforms", unsafe_allow_html=True)
+        st.markdown("<br><br> ☁️ Platforms", unsafe_allow_html=True)
         platform_skills = ["AWS", "Azure (basic)", "Streamlit", "ChromaDB", "GitHub", "Canva", "Adobe Illustrator"]
         for skill in platform_skills:
             st.markdown(f'<span class="skill-badge">{skill}</span>', unsafe_allow_html=True)
@@ -400,7 +400,7 @@ elif selected_section == "Achievements":
     with col1:
         st.metric("CGPA", "9.29", "🎓")
     with col2:
-        st.metric("Global Ranking", "Top 2,000", "🌟")
+        st.metric("Global Ranking", "Top 2000", "🌟")
     with col3:
         st.metric("PwC Score", "92%", "📊")
     with col4:
