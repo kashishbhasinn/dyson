@@ -67,6 +67,29 @@ st.markdown("""
         color: #003d82;
         font-weight: bold;
     }
+    .sidebar-card {
+        background: #f8f9fa;
+        border: 2px solid #003d82;
+        border-radius: 10px;
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+    .sidebar-metric {
+        background: linear-gradient(45deg, #003d82, #0052cc);
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        margin: 0.5rem 0;
+    }
+    .quick-fact {
+        background: #fff5f2;
+        border-left: 3px solid #ff6b35;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border-radius: 0 5px 5px 0;
+        font-size: 0.9rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -85,6 +108,104 @@ st.markdown("""
     <p><strong>💼</strong> linkedin.com/in/kashish-bhasin | <strong>💻</strong> github.com/kashishbhasinn</p>
 </div>
 """, unsafe_allow_html=True)
+
+# Sidebar
+with st.sidebar:
+    st.markdown("""
+    <div style="text-align: center; padding: 1rem; background: linear-gradient(135deg, #003d82, #0052cc); color: white; border-radius: 10px; margin-bottom: 2rem;">
+        <h2>📊 Quick Stats</h2>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Key Metrics
+    st.markdown("""
+    <div class="sidebar-metric">
+        <h3>9.29</h3>
+        <p>CGPA</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="sidebar-metric">
+        <h3>6+</h3>
+        <p>Internships</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("""
+    <div class="sidebar-metric">
+        <h3>10+</h3>
+        <p>Tech Projects</p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Why Dyson Section
+    st.markdown("""
+    <div class="sidebar-card">
+        <h4 style="color: #003d82; text-align: center;">🎯 Why Dyson?</h4>
+        <div class="quick-fact">
+            <strong>Innovation Focus:</strong> Passionate about solving real-world consumer problems
+        </div>
+        <div class="quick-fact">
+            <strong>Tech + Business:</strong> Perfect blend of AI/ML expertise and market research skills
+        </div>
+        <div class="quick-fact">
+            <strong>Proven Results:</strong> 65% sales growth impact at Dr. Oetker
+        </div>
+        <div class="quick-fact">
+            <strong>Team Leadership:</strong> Led 10+ cross-functional specialists
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Quick Facts
+    st.markdown("""
+    <div class="sidebar-card">
+        <h4 style="color: #003d82; text-align: center;">⚡ Quick Facts</h4>
+        <div class="quick-fact">
+            🎓 Top 2,000 AWS AI/ML scholarship recipients worldwide
+        </div>
+        <div class="quick-fact">
+            🌍 International exposure through PASCH program (50/100+ nations)
+        </div>
+        <div class="quick-fact">
+            💼 PwC Data Analytics certified (92% average score)
+        </div>
+        <div class="quick-fact">
+            🏆 Treasurer role: 200+ attendee growth achieved
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Skills Summary
+    st.markdown("""
+    <div class="sidebar-card">
+        <h4 style="color: #003d82; text-align: center;">🛠️ Core Skills</h4>
+        <div class="quick-fact">
+            <strong>Product:</strong> Roadmapping, PRDs, User Research
+        </div>
+        <div class="quick-fact">
+            <strong>Marketing:</strong> Google Analytics, Meta Ads, A/B Testing
+        </div>
+        <div class="quick-fact">
+            <strong>Tech:</strong> Python, AI/ML, Data Analysis
+        </div>
+        <div class="quick-fact">
+            <strong>Business:</strong> Market Analysis, Strategy, KPI Tracking
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Download Section
+    st.markdown("---")
+    st.markdown("""
+    <div style="text-align: center; padding: 1rem;">
+        <h4 style="color: #003d82;">📄 Resume Actions</h4>
+        <p style="font-size: 0.9rem; color: #666;">
+            Contact me for the latest PDF version or connect on LinkedIn!
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # Summary Section
 st.markdown('<div class="section-header"><h2>PROFESSIONAL SUMMARY</h2></div>', unsafe_allow_html=True)
