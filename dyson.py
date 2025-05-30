@@ -134,7 +134,7 @@ with st.sidebar:
     
     st.markdown("""
     <div class="sidebar-metric">
-        <h3>10+</h3>
+        <h3>8+</h3>
         <p>Tech Projects</p>
     </div>
     """, unsafe_allow_html=True)
