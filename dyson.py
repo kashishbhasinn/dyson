@@ -80,6 +80,8 @@ st.markdown("""
         border-radius: 10px;
         border-left: 4px solid #28a745;
         margin: 0.5rem 0;
+        color: black;
+
     }
     
     .dyson-section {
