@@ -428,7 +428,6 @@ elif selected_section == "Contact":
             st.balloons()
             st.success("🎊 Thank you for considering my application! I'm excited about the opportunity to contribute to Dyson's innovative culture and make a real impact. Let's build the future together!")
             st.markdown("### 🚀 Next Steps:")
-            st.write("1. 📧 I'll follow up via email within 24 hours")
             st.write("2. 📅 Ready for interviews at your convenience")
             st.write("3. 💼 Prepared to start contributing from day one!")
     
